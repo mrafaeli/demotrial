@@ -8,6 +8,9 @@
             :src="'../assets/hangman_' + strikes"
           />
         </div>
+        <div class="strikes">
+          strikes: {{ strikes }}/6
+        </div>
       </div>
       <div class="right-container">
         <div
@@ -106,6 +109,10 @@ export default {
   width: 100%;
 }
 
+.left-container {
+  margin: 10px;
+}
+
 .right-container {
   height: 200px;
   display: flex;
@@ -144,4 +151,7 @@ export default {
   }
 }
 
+.strikes {
+  font-size: 35px;
+}
 </style>
