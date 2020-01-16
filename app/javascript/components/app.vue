@@ -14,11 +14,18 @@
           class="game-word"
         >
         </div>
-        <div class="used-letters"></div>
+        <div class="used-letters">
+          <div
+            class="used-letters__letter letter"
+            v-for="letter in usedLetters"
+          >
+            {{ letter }}
+          </div>
+        </div>
         <div class="available-letters">
           <div
             v-for="letter in availableLetters"
-            class="available-letters__letter"
+            class="available-letters__letter letter"
             @click="tryLetter(letter)"
           >
             {{ letter }}
@@ -51,17 +58,21 @@ export default {
       this.availableLetters = LETTERS;
       this.displayLetters = new Array(this.currentWord.length).fill("_");
     },
+    markUsedLetter(letter) {
+      this.usedLetters.push(letter);
+      this.availableLetters.splice( this.availableLetters.indexOf(letter), 1 );
+    },
     tryLetter(letter) {
       let found = false;
       for (let i = 0; i < this.currentWord.length; i++) {
         if (letter === this.currentWord[i]) {
-          this.displayLetters.splice(i, 1, letter)
           found = true;
         }
       }
       if (!found) {
         if (this.strikes < 6) {
           this.strikes += 1;
+          this.markUsedLetter(letter);
         } else {
           this.startGame();
         }
@@ -79,14 +90,29 @@ export default {
   width: 100%;
 }
 
+.right-container {
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+}
+
+.letter {
+  font-size: 40px;
+  margin: 5px;
+}
+
 .available-letters {
   width: 300px;
   display: flex;
   flex-wrap: wrap;
+}
+
+.used-letters {
+  display: flex;
 
   &__letter {
-    font-size: 40px;
-    margin: 5px;
+    color: red;
+    font-size: 25px;
   }
 }
 
