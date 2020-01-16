@@ -13,6 +13,12 @@
         <div
           class="game-word"
         >
+          <div
+            class="game-word__letter"
+            v-for="letter in wordProgress"
+          >
+            {{ letter }}
+          </div>
         </div>
         <div class="used-letters">
           <div
@@ -45,10 +51,15 @@ export default {
   data() {
     return {
       strikes: 0,
-      currentWord: randomWord().split(""),
+      currentWord: [],
       usedLetters: [],
       availableLetters: LETTERS,
+      correct: 0,
+      wordProgress: [],
     }
+  },
+  mounted() {
+    this.startGame();
   },
   methods: {
     startGame() {
@@ -56,7 +67,9 @@ export default {
       this.strikes = 0;
       this.usedLetters = [];
       this.availableLetters = LETTERS;
-      this.displayLetters = new Array(this.currentWord.length).fill("_");
+      this.correct = 0;
+      this.wordProgress = new Array(this.currentWord.length);
+      this.wordProgress.fill("_");
     },
     markUsedLetter(letter) {
       this.usedLetters.push(letter);
@@ -66,6 +79,7 @@ export default {
       let found = false;
       for (let i = 0; i < this.currentWord.length; i++) {
         if (letter === this.currentWord[i]) {
+          this.wordProgress.splice(i, 1, letter)
           found = true;
         }
       }
@@ -76,6 +90,8 @@ export default {
         } else {
           this.startGame();
         }
+      } else {
+        this.markUsedLetter(letter);
       }
     },
   },
@@ -113,6 +129,18 @@ export default {
   &__letter {
     color: red;
     font-size: 25px;
+  }
+}
+
+.game-word {
+  display: flex;
+  height: 100px;
+  width: 500px;
+
+  &__letter {
+    font-size: 45px;
+    color: blue;
+    margin: 2px;
   }
 }
 
