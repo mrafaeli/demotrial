@@ -44,6 +44,29 @@ export default {
     }
   },
   methods: {
+    startGame() {
+      this.currentWord = randomWord().split("");
+      this.strikes = 0;
+      this.usedLetters = [];
+      this.availableLetters = LETTERS;
+      this.displayLetters = new Array(this.currentWord.length).fill("_");
+    },
+    tryLetter(letter) {
+      let found = false;
+      for (let i = 0; i < this.currentWord.length; i++) {
+        if (letter === this.currentWord[i]) {
+          this.displayLetters.splice(i, 1, letter)
+          found = true;
+        }
+      }
+      if (!found) {
+        if (this.strikes < 6) {
+          this.strikes += 1;
+        } else {
+          this.startGame();
+        }
+      }
+    },
   },
 }
 </script>
@@ -57,7 +80,14 @@ export default {
 }
 
 .available-letters {
+  width: 300px;
   display: flex;
+  flex-wrap: wrap;
+
+  &__letter {
+    font-size: 40px;
+    margin: 5px;
+  }
 }
 
 </style>
