@@ -42,6 +42,14 @@
         </div>
       </div>
     </div>
+    <div class="reset-button">
+      <button
+        @click="startGame()"
+        class="btn"
+      >
+        Reset
+      </button>
+    </div>
   </div>
 </template>
 
@@ -125,7 +133,7 @@ export default {
 }
 
 .available-letters {
-  width: 300px;
+  width: 350px;
   display: flex;
   flex-wrap: wrap;
 }
@@ -153,5 +161,12 @@ export default {
 
 .strikes {
   font-size: 35px;
+}
+
+.btn {
+  margin-left: 80px;
+  text-align: center;
+  text-decoration: none;
+  -webkit-appearance: none;
 }
 </style>
